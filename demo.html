@@ -68,5 +68,105 @@
 
 
 </script>
+<script type="text/babel">
+    // // React Component
+    // //  - what is a component -> reusable template module
+    // //  - how to create?
+    // //      - function-based
+    // //      - class-based
+    //
+    // // 1. fn - based
+    // //  props - ready only
+    // function Hello(props) {
+    //     console.log(props);
+    //     // props: { personData: val1, firstName: val2, age: val3}
+    //     const { personData } = props;
+    //     // const personData = props.personData;
+    //     // return valid jsx v-elements
+    //     return <h2>hello { personData.name}</h2>
+    // }
+    //
+    // // 2. class - based
+    // class Hello1 extends React.Component {
+    //     // constructor() {
+    //     //     super();
+    //     // }
+    //     render() {
+    //         console.log(this);
+    //         console.log(this.props);
+    //         const { personData } = this.props;
+    //         return <h2>hello 1 { personData.name }</h2>
+    //     }
+    // }
+    //
+    // // fn vs class
+    // //  - fn: no state, no life cycle
+    // //  - class: state ,  life cycle
+    //
+    // const person = { name: "Snoopy", age: 10 };
+    //
+    // ReactDOM.render(
+    //     <div>
+    //         <Hello personData={person} firstName={person.name} age={person.age}/>
+    //         <Hello1 personData={person} />
+    //     </div>
+    //     ,
+    //     document.getElementById("app")
+    // )
+
+    // 2. Component state
+    //  - what is state - 状态 classed-based
+
+    //  - how to use?
+    class App extends React.Component {
+        // define:
+        // method1:
+        constructor() {
+            super();
+            this.state = {
+                a: 100,
+                b: 200
+            }
+        }
+
+        // method2:
+        // state = {
+        //     a: 100,
+        //     b: 200
+        // };
+
+        render() {
+            // usage
+            console.log(this.state);
+            return <div>
+                { this.state.b }
+            </div>
+        }
+    }
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById("app")
+    )
+</script>
+
+<script>
+    // function Dog() {
+    //     console.log('hello');
+    // }
+    // Dog.prototype.run = function(){
+    //     console.log('run');
+    // }
+    // var dog = new Dog();
+    //
+    // class Dog1 {
+    //     run() {
+    //         console.log('run');
+    //     }
+    // }
+    //
+    // var dog1 = new Dog1();
+
+</script>
 </body>
 </html>

@@ -1,36 +1,92 @@
-package onlineShop.service;
+package onlineShop.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-import onlineShop.dao.ProductDao;
 import onlineShop.entity.Product;
 
-@Service
-public class ProductService {
+@Repository
+public class ProductDao {
 
     @Autowired
-    private ProductDao productDao;
+    private SessionFactory sessionFactory;
 
-    public List<Product> getAllProducts() {
-        return productDao.getAllProducts();
-    }
-
-    public Product getProductById(int productId) {
-        return productDao.getProductById(productId);
+    public void addProduct(Product product) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.save(product);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     public void deleteProduct(int productId) {
-        productDao.deleteProduct(productId);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            Product product = session.get(Product.class, productId);
+            session.delete(product);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
     }
 
-    public void addProduct(Product product){
-        productDao.addProduct(product);
+    public void updateProduct(Product product) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.update(product);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
     }
 
-    public void updateProduct(Product product){
-        productDao.updateProduct(product);
+    public Product getProductById(int productId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Product.class, productId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Product> getAllProducts() {
+        List<Product> products = new ArrayList<Product>();
+        try (Session session = sessionFactory.openSession()) {
+            products = session.createCriteria(Product.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return products;
     }
 }
